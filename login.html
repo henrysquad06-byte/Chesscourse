@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Henry's Chess - Login</title>
 
   <style>
@@ -100,6 +101,15 @@
       margin-top: 18px;
       font-weight: bold;
     }
+
+    .demo {
+      margin-top: 20px;
+      padding: 12px;
+      background: #f3f3f3;
+      border-radius: 12px;
+      font-size: 14px;
+      color: #555;
+    }
   </style>
 </head>
 
@@ -147,19 +157,24 @@
 
     <div id="message"></div>
 
+    <div class="demo">
+      <strong>Test account</strong><br>
+      Username: oscar<br>
+      Password: OscarChess123!
+    </div>
+
   </main>
 
   <script>
     const accounts = {
-      oscar: "OscarChess123!",
-      henry: "ChessOwl456!",
-      family: "ChessFamily789!"
+      oscar: "OscarChess123!"
     };
 
     const loginForm = document.getElementById("loginForm");
     const message = document.getElementById("message");
 
     loginForm.addEventListener("submit", function(event) {
+
       event.preventDefault();
 
       const username =
@@ -168,26 +183,35 @@
       const password =
         document.getElementById("password").value;
 
-      if (accounts[username] === password) {
-
-        message.textContent = "Login successful! ♟️";
-        message.style.color = "#3c9400";
+      if (
+        Object.prototype.hasOwnProperty.call(accounts, username) &&
+        accounts[username] === password
+      ) {
 
         sessionStorage.setItem("chessLoggedIn", "true");
 
-        setTimeout(() => {
+        message.textContent =
+          "Login successful! Opening chess... ♟️";
+
+        message.style.color = "#3c9400";
+
+        setTimeout(function() {
           window.location.href = "index.html";
         }, 500);
 
       } else {
 
         message.textContent =
-          "That username or password isn't correct.";
+          "Incorrect username or password.";
 
         message.style.color = "#d33";
+
       }
+
     });
   </script>
 
+</body>
+</html>
 </body>
 </html>
