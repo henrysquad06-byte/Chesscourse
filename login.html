@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Henry's Chess - Login</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #ffffff;
+      color: #222;
+    }
+
+    .login-card {
+      width: min(420px, 90%);
+      padding: 35px;
+      border: 1px solid #ddd;
+      border-radius: 24px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+      text-align: center;
+    }
+
+    .oscar {
+      width: 130px;
+      height: 130px;
+      margin: 0 auto 20px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .oscar img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #777;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 15px 0 7px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #58cc02;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 25px;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #58cc02;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #3c9400;
+    }
+
+    button:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #3c9400;
+    }
+
+    #message {
+      min-height: 24px;
+      margin-top: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="login-card">
+
+    <div class="oscar">
+      <img src="assets/oscar/idle.png" alt="Oscar">
+    </div>
+
+    <h1>Welcome to Henry's Chess ♟️</h1>
+
+    <p class="subtitle">
+      Log in to start your chess lesson.
+    </p>
+
+    <form id="loginForm">
+
+      <label for="username">Username</label>
+
+      <input
+        id="username"
+        type="text"
+        autocomplete="username"
+        placeholder="Enter username"
+        required
+      >
+
+      <label for="password">Password</label>
+
+      <input
+        id="password"
+        type="password"
+        autocomplete="current-password"
+        placeholder="Enter password"
+        required
+      >
+
+      <button type="submit">
+        Log in
+      </button>
+
+    </form>
+
+    <div id="message"></div>
+
+  </main>
+
+  <script>
+    const accounts = {
+      oscar: "OscarChess123!",
+      henry: "ChessOwl456!",
+      family: "ChessFamily789!"
+    };
+
+    const loginForm = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+
+    loginForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const username =
+        document.getElementById("username").value.trim().toLowerCase();
+
+      const password =
+        document.getElementById("password").value;
+
+      if (accounts[username] === password) {
+
+        message.textContent = "Login successful! ♟️";
+        message.style.color = "#3c9400";
+
+        sessionStorage.setItem("chessLoggedIn", "true");
+
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 500);
+
+      } else {
+
+        message.textContent =
+          "That username or password isn't correct.";
+
+        message.style.color = "#d33";
+      }
+    });
+  </script>
+
+</body>
+</html>
