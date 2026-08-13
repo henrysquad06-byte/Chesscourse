@@ -19,7 +19,7 @@
       min-height: 100vh;
     }
 
-    /* ---------- TOP BAR ---------- */
+    /* TOP BAR */
 
     .topbar {
       height: 70px;
@@ -29,11 +29,15 @@
       padding: 0 25px;
       border-bottom: 1px solid #dddddd;
       background: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
-    .close {
-      font-size: 30px;
-      color: #777777;
+    .logo {
+      font-weight: bold;
+      font-size: 20px;
+      white-space: nowrap;
     }
 
     .progress-container {
@@ -50,26 +54,43 @@
       height: 100%;
       background: #58cc02;
       border-radius: 20px;
+      transition: width 0.3s ease;
     }
 
     .streak {
       font-weight: bold;
       color: #ff9800;
+      white-space: nowrap;
     }
 
-    /* ---------- MAIN ---------- */
+    .logout {
+      border: none;
+      background: #eeeeee;
+      border-radius: 10px;
+      padding: 9px 13px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* MAIN */
 
     .lesson {
-      width: min(1100px, 94%);
-      margin: 35px auto;
+      width: min(1150px, 94%);
+      margin: 35px auto 60px;
     }
 
     .lesson-title {
       font-size: 38px;
-      margin-bottom: 20px;
+      margin-bottom: 8px;
     }
 
-    /* ---------- OSCAR ---------- */
+    .lesson-subtitle {
+      color: #777777;
+      margin-top: 0;
+      margin-bottom: 25px;
+    }
+
+    /* OSCAR */
 
     .teacher {
       display: flex;
@@ -79,8 +100,8 @@
     }
 
     .oscar {
-      width: 115px;
-      height: 115px;
+      width: 120px;
+      height: 120px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -88,6 +109,7 @@
       border-radius: 50%;
       overflow: hidden;
       flex-shrink: 0;
+      border: 2px solid #eeeeee;
     }
 
     .oscar img {
@@ -103,8 +125,9 @@
       border-radius: 18px;
       padding: 18px 22px;
       font-size: 20px;
-      max-width: 600px;
+      max-width: 650px;
       position: relative;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     }
 
     .speech::before {
@@ -120,7 +143,7 @@
       transform: rotate(45deg);
     }
 
-    /* ---------- GAME AREA ---------- */
+    /* GAME AREA */
 
     .game-area {
       display: flex;
@@ -130,20 +153,16 @@
       flex-wrap: wrap;
     }
 
-    /* ---------- CHESS BOARD ---------- */
+    /* CHESS BOARD */
 
     .board {
       width: min(620px, 90vw);
       aspect-ratio: 1 / 1;
-
       display: grid;
       grid-template-columns: repeat(8, 1fr);
-
       border-radius: 10px;
       overflow: hidden;
-
-      box-shadow:
-        0 12px 35px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
     }
 
     .square {
@@ -153,6 +172,7 @@
       font-size: clamp(30px, 7vw, 68px);
       user-select: none;
       cursor: pointer;
+      position: relative;
     }
 
     .light {
@@ -169,19 +189,18 @@
 
     .piece {
       line-height: 1;
-      filter:
-        drop-shadow(0 3px 1px rgba(0,0,0,0.25));
+      filter: drop-shadow(0 3px 1px rgba(0, 0, 0, 0.25));
     }
 
-    /* ---------- SIDE PANEL ---------- */
+    /* SIDE PANEL */
 
     .side-panel {
-      width: 270px;
+      width: 290px;
       background: #ffffff;
       border: 1px solid #dddddd;
       border-radius: 18px;
       padding: 22px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
     }
 
     .side-panel h2 {
@@ -195,6 +214,15 @@
       margin: 12px 0;
     }
 
+    .lesson-status {
+      margin: 18px 0;
+      padding: 14px;
+      border-radius: 12px;
+      background: #eef9e8;
+      color: #347d10;
+      font-weight: bold;
+    }
+
     .button {
       width: 100%;
       border: none;
@@ -206,6 +234,7 @@
       background: #58cc02;
       color: white;
       box-shadow: 0 4px 0 #3c9400;
+      margin-top: 8px;
     }
 
     .button:hover {
@@ -217,7 +246,20 @@
       box-shadow: 0 1px 0 #3c9400;
     }
 
-    /* ---------- BOTTOM ---------- */
+    .secondary-button {
+      width: 100%;
+      border: 2px solid #dddddd;
+      border-radius: 12px;
+      padding: 13px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      background: white;
+      color: #444444;
+      margin-top: 12px;
+    }
+
+    /* FOOTER */
 
     .bottom-message {
       margin-top: 30px;
@@ -225,7 +267,18 @@
       color: #777777;
     }
 
+    /* MOBILE */
+
     @media (max-width: 700px) {
+
+      .topbar {
+        padding: 0 12px;
+        gap: 10px;
+      }
+
+      .logo {
+        display: none;
+      }
 
       .lesson-title {
         font-size: 30px;
@@ -243,36 +296,64 @@
       .speech {
         font-size: 17px;
       }
+
+      .side-panel {
+        width: min(620px, 90vw);
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- TOP PROGRESS BAR -->
+  <!-- LOGIN CHECK -->
+
+  <script>
+    if (sessionStorage.getItem("chessLoggedIn") !== "true") {
+      window.location.href = "login.html";
+    }
+  </script>
+
+
+  <!-- TOP BAR -->
 
   <header class="topbar">
 
-    <div class="close">×</div>
+    <div class="logo">
+      ♟️ Henry's Chess
+    </div>
 
     <div class="progress-container">
-      <div class="progress"></div>
+      <div
+        class="progress"
+        id="progressBar">
+      </div>
     </div>
 
     <div class="streak">
-      🔥 0
+      🔥 <span id="streak">0</span>
     </div>
+
+    <button
+      class="logout"
+      onclick="logout()">
+      Log out
+    </button>
 
   </header>
 
 
-  <!-- LESSON -->
+  <!-- MAIN LESSON -->
 
   <main class="lesson">
 
     <h1 class="lesson-title">
       Learn Chess
     </h1>
+
+    <p class="lesson-subtitle">
+      Lesson 1 • Your first chess moves
+    </p>
 
 
     <!-- OSCAR -->
@@ -287,14 +368,18 @@
 
       </div>
 
-      <div class="speech">
+      <div
+        class="speech"
+        id="oscarSpeech">
+
         Welcome to chess! Let's warm up with this one.
+
       </div>
 
     </section>
 
 
-    <!-- GAME AREA -->
+    <!-- GAME -->
 
     <section class="game-area">
 
@@ -309,7 +394,7 @@
       </div>
 
 
-      <!-- SIDE PANEL -->
+      <!-- LESSON PANEL -->
 
       <aside class="side-panel">
 
@@ -320,11 +405,21 @@
         </p>
 
         <div class="stat">
-          ⭐ Progress: 0%
+          ⭐ Progress:
+          <span id="progressText">0%</span>
         </div>
 
         <div class="stat">
-          ♟️ Moves: 0
+          ♟️ Moves:
+          <span id="moveCount">0</span>
+        </div>
+
+        <div
+          class="lesson-status"
+          id="status">
+
+          Ready to learn!
+
         </div>
 
         <button
@@ -332,6 +427,14 @@
           onclick="nextLesson()">
 
           Continue
+
+        </button>
+
+        <button
+          class="secondary-button"
+          onclick="resetBoard()">
+
+          Reset board
 
         </button>
 
@@ -351,12 +454,7 @@
 
   <script>
 
-    /*
-      Starting chess position.
-
-      Uppercase = White
-      Lowercase = Black
-    */
+    /* CHESS STARTING POSITION */
 
     const startingPosition = [
 
@@ -371,6 +469,8 @@
 
     ];
 
+
+    /* CHESS PIECES */
 
     const pieces = {
 
@@ -394,6 +494,10 @@
     const board =
       document.getElementById("board");
 
+    let moveCount = 0;
+
+
+    /* CREATE BOARD */
 
     function createBoard() {
 
@@ -451,14 +555,58 @@
     }
 
 
+    /* CONTINUE BUTTON */
+
     function nextLesson() {
 
-      alert(
-        "Next lesson coming soon! ♟️"
-      );
+      document.getElementById("oscarSpeech").textContent =
+        "Nice! The next lesson is coming soon. ♟️";
+
+      document.getElementById("status").textContent =
+        "Lesson complete! 🎉";
+
+      document.getElementById("progressBar").style.width =
+        "25%";
+
+      document.getElementById("progressText").textContent =
+        "25%";
 
     }
 
+
+    /* RESET */
+
+    function resetBoard() {
+
+      moveCount = 0;
+
+      document.getElementById("moveCount").textContent =
+        "0";
+
+      document.getElementById("oscarSpeech").textContent =
+        "Let's try again! ♟️";
+
+      document.getElementById("status").textContent =
+        "Ready to learn!";
+
+      createBoard();
+
+    }
+
+
+    /* LOG OUT */
+
+    function logout() {
+
+      sessionStorage.removeItem("chessLoggedIn");
+
+      window.location.href =
+        "login.html";
+
+    }
+
+
+    /* START */
 
     createBoard();
 
