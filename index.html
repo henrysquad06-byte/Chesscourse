@@ -1,1 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Henry's Chess</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #ffffff;
+      color: #222222;
+      min-height: 100vh;
+    }
+
+    /* ---------- TOP BAR ---------- */
+
+    .topbar {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 0 25px;
+      border-bottom: 1px solid #dddddd;
+      background: #ffffff;
+    }
+
+    .close {
+      font-size: 30px;
+      color: #777777;
+    }
+
+    .progress-container {
+      flex: 1;
+      max-width: 700px;
+      height: 14px;
+      background: #dddddd;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .progress {
+      width: 18%;
+      height: 100%;
+      background: #58cc02;
+      border-radius: 20px;
+    }
+
+    .streak {
+      font-weight: bold;
+      color: #ff9800;
+    }
+
+    /* ---------- MAIN ---------- */
+
+    .lesson {
+      width: min(1100px, 94%);
+      margin: 35px auto;
+    }
+
+    .lesson-title {
+      font-size: 38px;
+      margin-bottom: 20px;
+    }
+
+    /* ---------- OSCAR ---------- */
+
+    .teacher {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .oscar {
+      width: 115px;
+      height: 115px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .oscar img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .speech {
+      background: #ffffff;
+      border: 2px solid #dddddd;
+      border-radius: 18px;
+      padding: 18px 22px;
+      font-size: 20px;
+      max-width: 600px;
+      position: relative;
+    }
+
+    .speech::before {
+      content: "";
+      position: absolute;
+      left: -12px;
+      top: 30px;
+      width: 20px;
+      height: 20px;
+      background: #ffffff;
+      border-left: 2px solid #dddddd;
+      border-bottom: 2px solid #dddddd;
+      transform: rotate(45deg);
+    }
+
+    /* ---------- GAME AREA ---------- */
+
+    .game-area {
+      display: flex;
+      gap: 35px;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ---------- CHESS BOARD ---------- */
+
+    .board {
+      width: min(620px, 90vw);
+      aspect-ratio: 1 / 1;
+
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+
+      border-radius: 10px;
+      overflow: hidden;
+
+      box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.2);
+    }
+
+    .square {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: clamp(30px, 7vw, 68px);
+      user-select: none;
+      cursor: pointer;
+    }
+
+    .light {
+      background: #f0f0dc;
+    }
+
+    .dark {
+      background: #79a85b;
+    }
+
+    .square:hover {
+      filter: brightness(1.08);
+    }
+
+    .piece {
+      line-height: 1;
+      filter:
+        drop-shadow(0 3px 1px rgba(0,0,0,0.25));
+    }
+
+    /* ---------- SIDE PANEL ---------- */
+
+    .side-panel {
+      width: 270px;
+      background: #ffffff;
+      border: 1px solid #dddddd;
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .side-panel h2 {
+      margin-top: 0;
+    }
+
+    .stat {
+      background: #f3f3f3;
+      border-radius: 12px;
+      padding: 14px;
+      margin: 12px 0;
+    }
+
+    .button {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 15px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #58cc02;
+      color: white;
+      box-shadow: 0 4px 0 #3c9400;
+    }
+
+    .button:hover {
+      background: #62dc06;
+    }
+
+    .button:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #3c9400;
+    }
+
+    /* ---------- BOTTOM ---------- */
+
+    .bottom-message {
+      margin-top: 30px;
+      text-align: center;
+      color: #777777;
+    }
+
+    @media (max-width: 700px) {
+
+      .lesson-title {
+        font-size: 30px;
+      }
+
+      .teacher {
+        align-items: flex-start;
+      }
+
+      .oscar {
+        width: 85px;
+        height: 85px;
+      }
+
+      .speech {
+        font-size: 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- TOP PROGRESS BAR -->
+
+  <header class="topbar">
+
+    <div class="close">×</div>
+
+    <div class="progress-container">
+      <div class="progress"></div>
+    </div>
+
+    <div class="streak">
+      🔥 0
+    </div>
+
+  </header>
+
+
+  <!-- LESSON -->
+
+  <main class="lesson">
+
+    <h1 class="lesson-title">
+      Learn Chess
+    </h1>
+
+
+    <!-- OSCAR -->
+
+    <section class="teacher">
+
+      <div class="oscar">
+
+        <img
+          src="assets/oscar/idle.png"
+          alt="Oscar">
+
+      </div>
+
+      <div class="speech">
+        Welcome to chess! Let's warm up with this one.
+      </div>
+
+    </section>
+
+
+    <!-- GAME AREA -->
+
+    <section class="game-area">
+
+      <div>
+
+        <div
+          class="board"
+          id="board"
+          aria-label="Chess board">
+        </div>
+
+      </div>
+
+
+      <!-- SIDE PANEL -->
+
+      <aside class="side-panel">
+
+        <h2>Lesson 1</h2>
+
+        <p>
+          Learn how the pieces move.
+        </p>
+
+        <div class="stat">
+          ⭐ Progress: 0%
+        </div>
+
+        <div class="stat">
+          ♟️ Moves: 0
+        </div>
+
+        <button
+          class="button"
+          onclick="nextLesson()">
+
+          Continue
+
+        </button>
+
+      </aside>
+
+    </section>
+
+
+    <div class="bottom-message">
+
+      🧠 Learn by doing • ♟️ Practice • 🏆 Improve
+
+    </div>
+
+  </main>
+
+
+  <script>
+
+    /*
+      Starting chess position.
+
+      Uppercase = White
+      Lowercase = Black
+    */
+
+    const startingPosition = [
+
+      "rnbqkbnr",
+      "pppppppp",
+      "........",
+      "........",
+      "........",
+      "........",
+      "PPPPPPPP",
+      "RNBQKBNR"
+
+    ];
+
+
+    const pieces = {
+
+      "K": "♔",
+      "Q": "♕",
+      "R": "♖",
+      "B": "♗",
+      "N": "♘",
+      "P": "♙",
+
+      "k": "♚",
+      "q": "♛",
+      "r": "♜",
+      "b": "♝",
+      "n": "♞",
+      "p": "♟"
+
+    };
+
+
+    const board =
+      document.getElementById("board");
+
+
+    function createBoard() {
+
+      board.innerHTML = "";
+
+      for (let row = 0; row < 8; row++) {
+
+        for (let col = 0; col < 8; col++) {
+
+          const square =
+            document.createElement("div");
+
+          square.classList.add("square");
+
+
+          if ((row + col) % 2 === 0) {
+
+            square.classList.add("light");
+
+          } else {
+
+            square.classList.add("dark");
+
+          }
+
+
+          const piece =
+            startingPosition[row][col];
+
+
+          if (piece !== ".") {
+
+            const pieceElement =
+              document.createElement("span");
+
+            pieceElement.className =
+              "piece";
+
+            pieceElement.textContent =
+              pieces[piece];
+
+            square.appendChild(
+              pieceElement
+            );
+
+          }
+
+
+          board.appendChild(square);
+
+        }
+
+      }
+
+    }
+
+
+    function nextLesson() {
+
+      alert(
+        "Next lesson coming soon! ♟️"
+      );
+
+    }
+
+
+    createBoard();
+
+  </script>
+
+</body>
+</html>
