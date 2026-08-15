@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Play Oscar</title>
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css"
+    >
+
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        #board {
+            width: min(90vw, 560px);
+            margin: 20px auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Play Oscar ♟️</h1>
+
+    <div id="board"></div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+
+    <script>
+        const board = Chessboard("board", {
+            position: "start",
+            orientation: "white",
+            draggable: true
+        });
+
+        window.addEventListener("resize", () => {
+            board.resize();
+        });
+    </script>
+
+</body>
+</html>
